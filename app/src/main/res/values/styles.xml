@@ -9,8 +9,7 @@
     </style>
 
     <!--Button Style-->
-    <style name="ButtonViewStyle" parent="Widget.Material3.Button.ElevatedButton">
-
+    <style name="ButtonViewStyle" parent="Widget.AppCompat.Button">
         <item name="android:padding">16dp</item>
         <item name="android:layout_margin">8dp</item>
         <item name="backgroundTint">@drawable/button</item>
@@ -24,7 +23,7 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
-    <!--Big text Style (main quote + generate btn)-->
+    <!--Big text Style-->
     <style name="BigText" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/textColor</item>
         <item name="android:textStyle">bold</item>
@@ -33,10 +32,10 @@
         <item name="android:letterSpacing">0.15</item>
     </style>
 
+    <!--Button text Style-->
     <style name="ButtonText" parent="BigText">
         <item name="android:textColor">@color/backWhite</item>
     </style>
-
 
     <style name="SmallText" parent="BigText">
         <item name="android:textSize">12sp</item>

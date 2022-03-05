@@ -1,12 +1,16 @@
 package com.example.quotegenerator
 
 import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.example.quotegenerator.api.Network
 import com.example.quotegenerator.databinding.ActivityMainBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,9 +21,12 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+
         //Main btn click listener
         binding.mainButton.setOnClickListener {
-            //TODO funzione per aggiornare la quote
+            CoroutineScope(Dispatchers.Main).launch {
+                refreshQuote()
+            }
         }
 
         //INFO btn click listener
@@ -28,6 +35,12 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    private suspend fun refreshQuote() {
+        val quote = Network.retrofitService.getQuote()
+        binding.mainTextView.text = quote
+    }
+
 
     //Display dialog with info
     private fun displayDialog() {
