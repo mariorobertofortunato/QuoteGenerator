@@ -1,0 +1,46 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Card Style-->
+    <style name="CardViewStyle" parent="CardView">
+        <item name="android:layout_margin">8dp</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">8dp</item>
+        <item name="cardBackgroundColor">@color/backWhite</item>
+    </style>
+
+    <!--Button Style-->
+    <style name="ButtonViewStyle" parent="Widget.Material3.Button.ElevatedButton">
+
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="backgroundTint">@drawable/button</item>
+    </style>
+
+    <!--Text View Style-->
+    <style name="TextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textAppearance">@style/BigText</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <!--Big text Style (main quote + generate btn)-->
+    <style name="BigText" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="ButtonText" parent="BigText">
+        <item name="android:textColor">@color/backWhite</item>
+    </style>
+
+
+    <style name="SmallText" parent="BigText">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+</resources>
