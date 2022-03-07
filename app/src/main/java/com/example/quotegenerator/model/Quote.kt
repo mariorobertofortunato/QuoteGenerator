@@ -6,6 +6,4 @@ package com.example.quotegenerator.model
  * h = boh*/
 
 
-
-
 data class Quote (var q: String, var a: String, var h: String)
