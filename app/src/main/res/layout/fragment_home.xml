@@ -8,9 +8,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".QuoteFragment">
+        tools:context=".HomeFragment">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/main_card_view"
@@ -19,6 +20,7 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
@@ -36,49 +38,41 @@
 
                 <Button
                     android:id="@+id/first_opt_button"
+                    style="@style/ButtonViewStyle"
                     android:text="ZenQuotes.io"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:background="@drawable/button"
-                    android:padding="16dp"
                     android:textAppearance="@style/ButtonText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/main_text_view"
-                    app:layout_constraintBottom_toTopOf="@+id/second_opt_button"
-                    />
+                    app:layout_constraintBottom_toTopOf="@+id/second_opt_button" />
 
                 <Button
                     android:id="@+id/second_opt_button"
+                    style="@style/ButtonViewStyle"
                     android:text="Kanye West"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:background="@drawable/button"
-                    android:padding="16dp"
                     android:textAppearance="@style/ButtonText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/first_opt_button"
-                    app:layout_constraintBottom_toTopOf="@+id/third_opt_button"
-                    />
+                    app:layout_constraintBottom_toTopOf="@+id/third_opt_button" />
                 <Button
                     android:id="@+id/third_opt_button"
+                    style="@style/ButtonViewStyle"
                     android:text="fisenkodv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:background="@drawable/button"
-                    android:padding="16dp"
                     android:textAppearance="@style/ButtonText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/second_opt_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-
-
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

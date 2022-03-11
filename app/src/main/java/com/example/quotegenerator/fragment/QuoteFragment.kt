@@ -1,6 +1,5 @@
 package com.example.quotegenerator.fragment
 
-import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,13 +9,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.example.quotegenerator.R
 import com.example.quotegenerator.api.NetworkId0
 import com.example.quotegenerator.api.NetworkId1
 import com.example.quotegenerator.api.NetworkId2
 import com.example.quotegenerator.databinding.FragmentQuoteBinding
 import com.example.quotegenerator.model.Quote
-import com.squareup.moshi.Json
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +28,15 @@ class QuoteFragment : Fragment() {
 
     private lateinit var binding: FragmentQuoteBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        //Set the behaviour of transition between fragments
+        val transInflater = TransitionInflater.from(requireContext())
+        enterTransition = transInflater.inflateTransition(R.transition.slide_right)
+        exitTransition = transInflater.inflateTransition(R.transition.fade)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
@@ -36,20 +45,37 @@ class QuoteFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_quote, container, false)
 
+        /** LISTENERS */
         //Main btn click listener
         binding.mainButton.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 refreshQuote(providerId!!)
             }
+            binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
+
+        //Fav btn listener
+        binding.favQuotesBtn.setOnClickListener {
+            findNavController().navigate(QuoteFragmentDirections.actionQuoteFragmentToFavFragment())
+        }
+
+        //Heart btn listner
+        binding.heartFav.setOnClickListener {
+            binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_24)
+            //TODO aggiunge la quote alle fav e qui sono cazzi
+        }
+
+        //Powered by click listener
+        binding.poweredByText.setOnClickListener {
+            //TODO fare l'intent che porta alla pagine web del provider relativo
+        }
+
         //INFO btn click listener
         binding.infoButton.setOnClickListener {
             displayDialog()
         }
 
-        binding.poweredByText.setOnClickListener {
-            //TODO fare l'intent che porta alla pagine web del provider relativo
-        }
+
 
         return binding.root
     }
@@ -68,9 +94,8 @@ class QuoteFragment : Fragment() {
                 val jsonArray = JSONArray(jsonString)
                 //Convert JSONArray item (in pos x) in JSONObject
                 val jsonObject: JSONObject = jsonArray.getJSONObject(0)
-                // From the jObject assigns the string labelled "q" (the actual quote) or "a" (author)
+                // From the jsonObject assigns the string labelled "q" (the actual quote) or "a" (author)
                 // to the same field of the Kotlin Quote object
-                // and bind the string to the view
                 quote.q = jsonObject.getString("q")
                 quote.a = jsonObject.getString("a")
                 providerName = "ZenQuotes.io"
@@ -85,6 +110,7 @@ class QuoteFragment : Fragment() {
             2 -> {
                 val jsonString = NetworkId2.retrofitServiceId2.getQuote()
                 val jsonObject = JSONObject(jsonString)
+                //nested
                 val author = jsonObject.getJSONObject("author")
                 quote.q = jsonObject.getString("text")
                 quote.a = author.getString("name")

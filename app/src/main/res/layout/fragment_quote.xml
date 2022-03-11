@@ -32,6 +32,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/author_text_view"
                     style="@style/TextViewStyle"
@@ -39,21 +40,44 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toTopOf="@+id/main_button"
                     app:layout_constraintEnd_toEndOf="parent"
-
                     app:layout_constraintTop_toBottomOf="@id/main_text_view" />
 
                 <Button
                     android:id="@+id/main_button"
+                    style="@style/ButtonViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:background="@drawable/button"
-                    android:padding="16dp"
                     android:text="@string/generate"
                     android:textAppearance="@style/ButtonText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/author_text_view" />
+
+                <Button
+                    android:id="@+id/fav_quotes_btn"
+                    style="@style/ButtonViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:text="FAVOURITE QUOTES"
+                    android:textAppearance="@style/ButtonText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/main_button" />
+
+                <ImageView
+                    android:id="@+id/heart_fav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_layout_margin"
+                    android:gravity="center"
+                    android:padding="@dimen/default_padding"
+                    android:src="@drawable/ic_baseline_favorite_border_24"
+                    android:textAppearance="@style/ButtonText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fav_quotes_btn" />
 
                 <TextView
                     android:id="@+id/powered_by_text"
@@ -61,19 +85,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/SmallText"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/info_button"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="invisible"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
                     android:id="@+id/info_button"
+                    style="@style/ButtonViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:background="@drawable/button"
                     android:drawableStart="@drawable/ic_outline_info_24"
-                    android:padding="16dp"
                     android:text="@string/info"
                     android:textAppearance="@style/ButtonText"
                     app:layout_constraintBottom_toBottomOf="parent"

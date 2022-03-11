@@ -19,5 +19,13 @@
         <argument
             android:name="providerId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_quoteFragment_to_favFragment"
+            app:destination="@id/favFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favFragment"
+        android:name="com.example.quotegenerator.fragment.FavFragment"
+        android:label="fragment_fav"
+        tools:layout="@layout/fragment_fav" />
 </navigation>
