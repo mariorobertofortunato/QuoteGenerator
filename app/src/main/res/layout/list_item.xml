@@ -14,9 +14,9 @@
         android:layout_margin="8dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:text="@{quote.q}"
-            android:id="@+id/quote"
-            android:layout_width="0dp"
+            android:text="quote quopte quote"
+            android:id="@+id/actualQuote"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -24,14 +24,13 @@
             app:layout_constraintBottom_toTopOf="@+id/author"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:text="@{quote.a}"
+            android:text = "author author author"
             android:id="@+id/author"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/quote"
+            app:layout_constraintTop_toBottomOf="@id/actualQuote"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,35 +11,35 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.quotegenerator.R
 import com.example.quotegenerator.model.Quote
 
-class Adapter : ListAdapter<Quote, Adapter.ViewHolder>(DiffCallback()) {
+class Adapter : ListAdapter<Quote, Adapter.ViewHolder>(DiffCallback) {
 
-    var data = ArrayList<Quote>()
-
-    override fun getItemCount(): Int { return data.size }
+    //var data = ArrayList<Quote>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: Adapter.ViewHolder, position: Int) {
-        val item = data[position]
-        holder.quote.text = item.q
-        holder.author.text = item.a
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val quote: TextView = view.findViewById(R.id.quote)
-        val author: TextView = view.findViewById(R.id.author)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val actualQuote: TextView = itemView.findViewById(R.id.actualQuote)
+        val author: TextView = itemView.findViewById(R.id.author)
+        fun bind (quote: Quote) {
+            actualQuote.text = quote.q
+            author.text = quote.a
+        }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Quote>() {
+    object DiffCallback : DiffUtil.ItemCallback<Quote>() {
         override fun areItemsTheSame(oldItem: Quote, newItem: Quote): Boolean {
             return oldItem.q == newItem.q
         }
-
         override fun areContentsTheSame(oldItem: Quote, newItem: Quote): Boolean {
             return oldItem == newItem
         }
     }
+
 }
