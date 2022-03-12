@@ -21,6 +21,12 @@ class FavFragment : Fragment() {
     var provaquote1 = Quote("quote1", "author1", "")
     var provaquote2 = Quote("quote2", "author2", "")
     var provaquote3 = Quote("quote3", "author3", "")
+    var provaquote4 = Quote("quote1", "author1", "")
+    var provaquote5 = Quote("quote2", "author2", "")
+    var provaquote6 = Quote("quote3", "author3", "")
+    var provaquote7 = Quote("quote1", "author1", "")
+    var provaquote8 = Quote("quote2", "author2", "")
+    var provaquote9 = Quote("quote3", "author3", "")
     var quoteList = ArrayList<Quote>()
 
 
@@ -31,13 +37,19 @@ class FavFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_fav, container, false)
 
-        binding.lifecycleOwner = this                                                               //lifecyleOwner
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
     //TODO cancellare auendo inutlie
         quoteList.add(provaquote1)
         quoteList.add(provaquote2)
         quoteList.add(provaquote3)
+        quoteList.add(provaquote4)
+        quoteList.add(provaquote5)
+        quoteList.add(provaquote6)
+        quoteList.add(provaquote7)
+        quoteList.add(provaquote8)
+        quoteList.add(provaquote9)
 
         //TODO recyclerView e tutte cose
         //binding.quoteRecycler.adapter = Adapter()
