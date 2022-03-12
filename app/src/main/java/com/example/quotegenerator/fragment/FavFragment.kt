@@ -60,7 +60,7 @@ class FavFragment : Fragment() {
         adapter.submitList(quoteList.toMutableList())
 
 
-        /**ASTEROID LIST*/
+        /**QUOTE LIST*/
             //adapter.data.clear()
             //adapter.data.add(0,provaquote)
             //adapter.notifyDataSetChanged()
