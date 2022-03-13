@@ -1,23 +1,24 @@
 package com.example.quotegenerator.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.quotegenerator.model.Quote
+import kotlinx.coroutines.flow.Flow
 
 /** Defines the methods for accessing the DB aka
  * provides the methods that the rest of the app uses to interact with data in the quote_db table.*/
 @Dao
-interface Dao {
+interface QuoteDao {
 
     @Query("SELECT * FROM quotes_db")
-    fun getAll(): List<Quote>
+    suspend fun getAll(): List<QuoteDB>
 
-    @Insert
-    fun insertQuote (quote: Quote)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertQuote (quoteDB: QuoteDB)
+
+    @Query("delete from quotes_db")
+    suspend fun deleteAll()
 
     @Delete
-    fun deleteQuote (quote: Quote)
+    suspend fun deleteQuote (quoteDB: QuoteDB)
 
 }

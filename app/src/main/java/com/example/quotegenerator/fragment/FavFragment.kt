@@ -7,9 +7,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.example.quotegenerator.R
+import com.example.quotegenerator.database.asDomainModel
 import com.example.quotegenerator.databinding.FragmentFavBinding
 import com.example.quotegenerator.model.Quote
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 
 class FavFragment : Fragment() {
@@ -18,18 +25,10 @@ class FavFragment : Fragment() {
     private val viewModel by viewModels<ViewModel>()
 
     //TODO cancellare una volta che non serve piu
-    var provaquote1 = Quote("quote1", "author1", "")
-    var provaquote2 = Quote("quote2", "author2", "")
-    var provaquote3 = Quote("quote3", "author3", "")
-    var provaquote4 = Quote("quote1", "author1", "")
-    var provaquote5 = Quote("quote2", "author2", "")
-    var provaquote6 = Quote("quote3", "author3", "")
-    var provaquote7 = Quote("quote1", "author1", "")
-    var provaquote8 = Quote("quote2", "author2", "")
-    var provaquote9 = Quote("quote3", "author3", "")
-    var quoteList = ArrayList<Quote>()
-
-
+   var provaquote1 = Quote(0,"quote1", "author1", "")
+    var provaquote2 = Quote(0,"quote2", "author2", "")
+    var provaquote9 = Quote(0,"quote3", "author3", "")
+    var provaqQuoteList = ArrayList<Quote>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -39,31 +38,14 @@ class FavFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
-    //TODO cancellare auendo inutlie
-        quoteList.add(provaquote1)
-        quoteList.add(provaquote2)
-        quoteList.add(provaquote3)
-        quoteList.add(provaquote4)
-        quoteList.add(provaquote5)
-        quoteList.add(provaquote6)
-        quoteList.add(provaquote7)
-        quoteList.add(provaquote8)
-        quoteList.add(provaquote9)
-
-        //TODO recyclerView e tutte cose
-        //binding.quoteRecycler.adapter = Adapter()
-
-        //questo è l'esempio
         val adapter = Adapter()
         binding.quoteRecycler.adapter = adapter
-        adapter.submitList(quoteList.toMutableList())
+
+        provaqQuoteList.add(provaquote9)
+        //adapter.submitList(provaqQuoteList)
 
 
-        /**QUOTE LIST*/
-            //adapter.data.clear()
-            //adapter.data.add(0,provaquote)
-            //adapter.notifyDataSetChanged()
+        adapter.submitList(viewModel.quoteList)
 
 
         return binding.root

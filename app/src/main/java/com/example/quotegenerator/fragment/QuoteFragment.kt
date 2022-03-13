@@ -83,7 +83,7 @@ class QuoteFragment : Fragment() {
 
     private suspend fun refreshQuote(providerId: Int) {
 
-        val quote = Quote("","","")
+        val quote = Quote(0,"","","")
         var providerName = ""
 
         when (providerId) {

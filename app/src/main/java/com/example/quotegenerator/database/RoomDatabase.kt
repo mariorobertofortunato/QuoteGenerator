@@ -4,23 +4,24 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import kotlinx.coroutines.CoroutineScope
 
 /** Defines the database configuration and serves as the app's main access point to the persisted data.*/
 
 /** DB holder class*/
-@Database (entities = [QuoteDB::class], version = 1)
+@Database (entities = [QuoteDB::class], version = 1, exportSchema = false)
 abstract class QuoteRoomDatabase : RoomDatabase() {
-    abstract val dao: Dao
+    abstract val quoteDao: QuoteDao
 }
-/** Create an instance of the RoomDB with the method getDB*/
+/** Create an instance of the RoomDB*/
 
-private lateinit var INSTANCE: RoomDatabase
+private lateinit var INSTANCE: QuoteRoomDatabase
 
-fun getDB(context: Context): RoomDatabase {
+fun getDB(context: Context): QuoteRoomDatabase {
     synchronized(RoomDatabase::class.java) {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room
-                .databaseBuilder(context.applicationContext, RoomDatabase::class.java, "quotes")
+                .databaseBuilder(context.applicationContext, QuoteRoomDatabase::class.java, "quotes")
                 .build()
         }
     }
