@@ -3,7 +3,6 @@ package com.example.quotegenerator.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,9 +12,7 @@ import com.example.quotegenerator.model.Quote
 
 class Adapter : ListAdapter<Quote, Adapter.ViewHolder>(DiffCallback) {
 
-    //var data = ArrayList<Quote>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         return ViewHolder(view)
     }
@@ -25,8 +22,8 @@ class Adapter : ListAdapter<Quote, Adapter.ViewHolder>(DiffCallback) {
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val actualQuote: TextView = itemView.findViewById(R.id.actualQuote)
-        val author: TextView = itemView.findViewById(R.id.author)
+        private val actualQuote: TextView = itemView.findViewById(R.id.actualQuote)
+        private val author: TextView = itemView.findViewById(R.id.author)
         fun bind (quote: Quote) {
             actualQuote.text = quote.q
             author.text = quote.a

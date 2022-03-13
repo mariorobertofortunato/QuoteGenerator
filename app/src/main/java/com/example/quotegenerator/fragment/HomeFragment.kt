@@ -1,5 +1,6 @@
 package com.example.quotegenerator.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,25 +13,15 @@ import androidx.transition.TransitionInflater
 import com.example.quotegenerator.R
 import com.example.quotegenerator.databinding.FragmentHomeBinding
 
-
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private var providerId = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        //Set the behaviour of transition between fragments
-        val transInflater = TransitionInflater.from(requireContext())
-        exitTransition = transInflater.inflateTransition(R.transition.fade)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(layoutInflater)
 
         //Start button anim
         animation()

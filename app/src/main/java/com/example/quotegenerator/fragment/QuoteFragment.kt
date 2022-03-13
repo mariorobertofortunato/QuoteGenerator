@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import com.example.quotegenerator.R
@@ -27,42 +30,39 @@ import org.json.JSONObject
 class QuoteFragment : Fragment() {
 
     private lateinit var binding: FragmentQuoteBinding
+    private val viewModel by viewModels<ViewModel>()
+    var quote = Quote(0,"","")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        //Set the behaviour of transition between fragments
-        val transInflater = TransitionInflater.from(requireContext())
-        enterTransition = transInflater.inflateTransition(R.transition.slide_right)
-        exitTransition = transInflater.inflateTransition(R.transition.fade)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val providerId = arguments?.getInt("providerId")
 
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_quote, container, false)
+        binding = FragmentQuoteBinding.inflate(layoutInflater)
 
         /** LISTENERS */
         //Main btn click listener
         binding.mainButton.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
+            lifecycleScope.launch {
                 refreshQuote(providerId!!)
             }
+            //Reset heart button
             binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
 
-        //Fav btn listener
+        //FavoriteQuoteList btn listener
         binding.favQuotesBtn.setOnClickListener {
             findNavController().navigate(QuoteFragmentDirections.actionQuoteFragmentToFavFragment())
         }
 
         //Heart btn listner
         binding.heartFav.setOnClickListener {
+            if (quote.q!="") {
+                viewModel.insertQuote(quote)
+            } else {
+                Toast.makeText(requireContext(),"Generate a quote first",Toast.LENGTH_SHORT).show()
+            }
             binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_24)
-            //TODO aggiunge la quote alle fav e qui sono cazzi
         }
 
         //Powered by click listener
@@ -75,15 +75,12 @@ class QuoteFragment : Fragment() {
             displayDialog()
         }
 
-
-
         return binding.root
     }
 
 
     private suspend fun refreshQuote(providerId: Int) {
 
-        val quote = Quote(0,"","","")
         var providerName = ""
 
         when (providerId) {

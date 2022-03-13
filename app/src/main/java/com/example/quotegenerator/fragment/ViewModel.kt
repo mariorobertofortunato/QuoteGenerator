@@ -15,24 +15,40 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     private var _quoteList = ArrayList<Quote>()
     val quoteList: ArrayList<Quote> get() = _quoteList
 
-    init {
+    /**Public methods*/
+    fun getQuotes() {
         viewModelScope.launch {
             getQuotesFromDB()
         }
     }
 
-    suspend fun insertQuote(quote: Quote) {
+    fun insertQuote(quote: Quote) {
+        viewModelScope.launch {
+            insertQuoteInDB(quote)
+        }
+    }
+
+    fun deleteQuote(quote: Quote) {
+        viewModelScope.launch {
+            deleteQuoteFromDB(quote)
+        }
+    }
+
+    /**Private methods*/
+    private suspend fun getQuotesFromDB() {
+        val quotesFromDB = database.quoteDao.getAll().asDomainModel()
+        _quoteList = ArrayList(quotesFromDB)
+    }
+
+    private suspend fun insertQuoteInDB(quote: Quote) {
         database.quoteDao.insertQuote(quote.asDBModel())
     }
 
-    suspend fun deleteQuote(quote: Quote) {
+    private suspend fun deleteQuoteFromDB(quote: Quote) {
         database.quoteDao.deleteQuote(quote.asDBModel())
     }
 
-    suspend fun getQuotesFromDB() {
-            val collection = database.quoteDao.getAll().asDomainModel()
-            _quoteList = ArrayList(collection)
-    }
+
 
 
 

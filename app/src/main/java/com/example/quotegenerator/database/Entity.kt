@@ -8,11 +8,10 @@ import com.example.quotegenerator.model.Quote
 /** Defines the schema of the database, aka the fields of every entity in the DB
  * Each instance of QuoteDB represents a row in a quote table in the app's database.*/
 @Entity(tableName = "quotes_db")
-class QuoteDB (
+data class QuoteDB (
     @PrimaryKey(autoGenerate = true) var id: Int,
     @ColumnInfo(name="q") val q: String,
-    @ColumnInfo(name="a") val a: String,
-    @ColumnInfo(name="h") val h: String)
+    @ColumnInfo(name="a") val a: String)
 
 /** Map Database Quotes to domain entities = convert QuoteDB objects into domain objects.*/
 fun List<QuoteDB>.asDomainModel(): List<Quote> {
@@ -20,8 +19,7 @@ fun List<QuoteDB>.asDomainModel(): List<Quote> {
         Quote(
             id = it.id,
             q = it.q,
-            a = it.a,
-            h = it.h,
+            a = it.a
         )
     }
 }
@@ -39,5 +37,5 @@ fun ArrayList<Quote>.asDBModel(): List<QuoteDB> {
 }*/
 
 fun Quote.asDBModel(): QuoteDB {
-    return QuoteDB(id, q, a, h)
+    return QuoteDB(id, q, a)
 }
