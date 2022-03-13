@@ -2,6 +2,8 @@ package com.example.quotegenerator.fragment
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.quotegenerator.database.asDBModel
 import com.example.quotegenerator.database.asDomainModel
@@ -11,9 +13,9 @@ import kotlinx.coroutines.launch
 
 class ViewModel(application: Application) : AndroidViewModel(application) {
 
-   private val database = getDB(application)
-    private var _quoteList = ArrayList<Quote>()
-    val quoteList: ArrayList<Quote> get() = _quoteList
+    private val database = getDB(application)
+    private var _quoteList = MutableLiveData<ArrayList<Quote>>()
+    val quoteList: LiveData<ArrayList<Quote>> get() = _quoteList
 
     /**Public methods*/
     fun getQuotes() {
@@ -37,7 +39,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     /**Private methods*/
     private suspend fun getQuotesFromDB() {
         val quotesFromDB = database.quoteDao.getAll().asDomainModel()
-        _quoteList = ArrayList(quotesFromDB)
+        _quoteList.value = ArrayList(quotesFromDB)
     }
 
     private suspend fun insertQuoteInDB(quote: Quote) {

@@ -14,7 +14,8 @@ class FavFragment : Fragment() {
     private val viewModel by viewModels<ViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
 
         // Inflate the layout for this fragment
         binding = FragmentFavBinding.inflate(layoutInflater)
@@ -23,7 +24,9 @@ class FavFragment : Fragment() {
 
         val adapter = Adapter()
         binding.quoteRecycler.adapter = adapter
-        adapter.submitList(viewModel.quoteList.toMutableList())
+        viewModel.quoteList.observe(viewLifecycleOwner) { quotesList ->
+            adapter.submitList(quotesList)
+        }
 
         return binding.root
     }
