@@ -49,10 +49,4 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun deleteQuoteFromDB(quote: Quote) {
         database.quoteDao.deleteQuote(quote.asDBModel())
     }
-
-
-
-
-
-
 }

@@ -1,16 +1,11 @@
 package com.example.quotegenerator.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.transition.TransitionInflater
-import com.example.quotegenerator.R
 import com.example.quotegenerator.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
