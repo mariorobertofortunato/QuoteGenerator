@@ -39,6 +39,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <ImageView
+                        android:id="@+id/heart_fav"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/default_padding"
+                        android:src="@drawable/ic_baseline_favorite_border_24"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
                     <TextView
                         android:id="@+id/author_text_view"
                         style="@style/TextViewStyle"
@@ -60,7 +70,6 @@
                 android:background="@drawable/button"
                 android:text="@string/generate"
                 android:textAppearance="@style/ButtonText"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/quote_card_view" />
 
@@ -73,21 +82,7 @@
                 android:text="FAVOURITE QUOTES"
                 android:textAppearance="@style/ButtonText"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_button" />
-
-            <ImageView
-                android:id="@+id/heart_fav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_layout_margin"
-                android:gravity="center"
-                android:padding="@dimen/default_padding"
-                android:src="@drawable/ic_baseline_favorite_border_24"
-                android:textAppearance="@style/ButtonText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fav_quotes_btn" />
+                app:layout_constraintTop_toBottomOf="@+id/quote_card_view" />
 
             <TextView
                 android:id="@+id/powered_by_text"

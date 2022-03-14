@@ -40,9 +40,10 @@ class QuoteFragment : Fragment() {
         binding.mainButton.setOnClickListener {
             lifecycleScope.launch {
                 refreshQuote(providerId!!)
+                //Reset heart button
+                binding.heartFav.isVisible = true
+                binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
             }
-            //Reset heart button
-            binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
 
         //FavoriteQuoteList btn listener
@@ -54,13 +55,13 @@ class QuoteFragment : Fragment() {
         //Heart btn listner
         binding.heartFav.setOnClickListener {
             if (quote.q!="" && quote.a != "zenquotes.io") {
+                binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_24)
                 viewModel.insertQuote(quote)
                 //reset quote var after inserting in the DB
                 quote.q = ""
             } else {
                 Toast.makeText(requireContext(),"Generate a quote first",Toast.LENGTH_SHORT).show()
             }
-            binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_24)
         }
 
         //Powered by click listener
