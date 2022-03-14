@@ -8,10 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.quotegenerator.R
+import com.example.quotegenerator.api.NetworkId1
 import com.example.quotegenerator.api.PictureNetwork
 import com.example.quotegenerator.databinding.FragmentHomeBinding
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class HomeFragment : Fragment() {
 
@@ -24,7 +29,9 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
-        
+        CoroutineScope(Dispatchers.Main).launch {
+            getPicture()
+        }
 
         //Start buttons anim
         animation()
@@ -58,9 +65,14 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun getPicture() {
-        val picture = PictureNetwork.retrofitServicePicture.getPicture()
+
+        val jsonString = PictureNetwork.retrofitServicePicture.getPicture()
+        val jsonObject = JSONObject(jsonString)
+        val url = jsonObject.getString("file")
         Picasso.get()
-            .load(picture.url)
+            .load(url)
+            .placeholder(R.drawable.ic_baseline_error_24)
+            .error(R.drawable.ic_baseline_error_24)
             .into(binding.picture)
     }
 }
