@@ -22,6 +22,7 @@
     <!--Text View Style-->
     <style name="TextViewStyle" parent="android:Widget.TextView">
         <item name="android:textAppearance">@style/BigText</item>
+        <item name="android:textAlignment">center</item>
         <item name="android:padding">@dimen/small_padding</item>
         <item name="android:layout_margin">@dimen/default_layout_margin</item>
         <item name="android:layout_gravity">center_vertical</item>

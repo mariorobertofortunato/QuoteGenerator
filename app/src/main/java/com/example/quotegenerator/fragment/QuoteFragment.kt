@@ -22,7 +22,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 
-
 class QuoteFragment : Fragment() {
 
     private lateinit var binding: FragmentQuoteBinding
@@ -37,7 +36,7 @@ class QuoteFragment : Fragment() {
         binding = FragmentQuoteBinding.inflate(layoutInflater)
 
         /** LISTENERS */
-        //Main btn click listener
+        //"Generate" btn listener
         binding.mainButton.setOnClickListener {
             lifecycleScope.launch {
                 refreshQuote(providerId!!)
@@ -48,6 +47,7 @@ class QuoteFragment : Fragment() {
 
         //FavoriteQuoteList btn listener
         binding.favQuotesBtn.setOnClickListener {
+            viewModel.getQuotes()
             findNavController().navigate(QuoteFragmentDirections.actionQuoteFragmentToFavFragment())
         }
 
@@ -103,7 +103,7 @@ class QuoteFragment : Fragment() {
             2 -> {
                 val jsonString = NetworkId2.retrofitServiceId2.getQuote()
                 val jsonObject = JSONObject(jsonString)
-                //nested
+                //nested json
                 val author = jsonObject.getJSONObject("author")
                 quote.q = jsonObject.getString("text")
                 quote.a = author.getString("name")

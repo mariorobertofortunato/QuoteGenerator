@@ -2,8 +2,11 @@ package com.example.quotegenerator.api
 
 import com.example.quotegenerator.model.Picture
 import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 
@@ -65,4 +68,18 @@ object NetworkId2 {
         .build()
     val retrofitServiceId2 : ApiService by lazy { retrofitQuote.create(ApiService::class.java) }
 }
+
+object PictureNetwork {
+    private val retrofitPicture = Retrofit.Builder()
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(PICTURE_URL)
+        .build()
+    val retrofitServicePicture : ApiService by lazy { retrofitPicture.create(ApiService::class.java)}
+}
+
+//Build the Moshi converter used by Retrofit (KotlinJsonAdapterFactory = from JSON object to Kotlin object)
+//This is used for the "Image of the day"
+private val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()
 
