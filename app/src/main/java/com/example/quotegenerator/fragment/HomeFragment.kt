@@ -66,12 +66,8 @@ class HomeFragment : Fragment() {
     }
 
     private suspend fun getPicture() {
-
-        val jsonString = PictureNetwork.retrofitServicePicture.getPicture()
-        val jsonObject = JSONObject(jsonString)
-        val url = jsonObject.getString("file")
         Picasso.get()
-            .load(url)
+            .load(viewModel.getPictureUrl())
             .placeholder(R.drawable.ic_baseline_error_24)
             .error(R.drawable.ic_baseline_error_24)
             .into(binding.picture)

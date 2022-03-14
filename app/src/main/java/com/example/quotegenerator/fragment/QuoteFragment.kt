@@ -53,8 +53,10 @@ class QuoteFragment : Fragment() {
 
         //Heart btn listner
         binding.heartFav.setOnClickListener {
-            if (quote.q!="") {
+            if (quote.q!="" && quote.a != "zenquotes.io") {
                 viewModel.insertQuote(quote)
+                //reset quote var after inserting in the DB
+                quote.q = ""
             } else {
                 Toast.makeText(requireContext(),"Generate a quote first",Toast.LENGTH_SHORT).show()
             }
