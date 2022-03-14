@@ -29,6 +29,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
+        //Load the picture of the day
         CoroutineScope(Dispatchers.Main).launch {
             getPicture()
         }
