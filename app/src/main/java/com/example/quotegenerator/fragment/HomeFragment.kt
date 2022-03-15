@@ -1,22 +1,22 @@
 package com.example.quotegenerator.fragment
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.quotegenerator.R
-import com.example.quotegenerator.api.NetworkId1
-import com.example.quotegenerator.api.PictureNetwork
 import com.example.quotegenerator.databinding.FragmentHomeBinding
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 class HomeFragment : Fragment() {
 
@@ -38,6 +38,20 @@ class HomeFragment : Fragment() {
         animation()
 
         /** LISTENERS */
+
+        binding.picture.setOnClickListener {
+            Toast.makeText(requireContext(),"Ciao",Toast.LENGTH_SHORT).show()
+            //TODO work in progress
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+                //askPermissions()
+            } else {
+                CoroutineScope(Dispatchers.Main).launch {
+                    //downloadImage(viewModel.getPictureUrl())
+                }
+            }
+        }
+
         binding.firstOptButton.setOnClickListener {
             providerId = 0
             val action = HomeFragmentDirections.actionHomeFragmentToQuoteFragment(providerId)
@@ -72,6 +86,8 @@ class HomeFragment : Fragment() {
             .error(R.drawable.ic_baseline_error_24)
             .into(binding.picture)
     }
+
+
 }
 
 
