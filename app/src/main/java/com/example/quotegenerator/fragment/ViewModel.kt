@@ -1,6 +1,8 @@
 package com.example.quotegenerator.fragment
 
 import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +14,7 @@ import com.example.quotegenerator.database.getDB
 import com.example.quotegenerator.model.Quote
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import java.net.URL
 
 class ViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,9 +22,9 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     private var _quoteList = MutableLiveData<ArrayList<Quote>>()
     val quoteList: LiveData<ArrayList<Quote>> get() = _quoteList
 
-    /**Public methods*/
+    /** Public methods */
 
-            /**DB*/
+            /** DB */
             fun getQuotes() {
                 viewModelScope.launch {
                     getQuotesFromDB()
@@ -40,15 +43,19 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-    suspend fun getPictureUrl () : String {
-        val jsonString = PictureNetwork.retrofitServicePicture.getPicture()
-        val jsonObject = JSONObject(jsonString)
-        return jsonObject.getString("file")
-    }
+            /** Picture */
+            suspend fun getPictureUrl () : String {
+                val jsonString = PictureNetwork.retrofitServicePicture.getPicture()
+                val jsonObject = JSONObject(jsonString)
+                return jsonObject.getString("file")
+            }
 
-    /**Private methods*/
 
-            /**DB*/
+
+
+    /** Private methods */
+
+            /** DB */
             private suspend fun getQuotesFromDB() {
                 val quotesFromDB = database.quoteDao.getAll().asDomainModel()
                 _quoteList.value = ArrayList(quotesFromDB)
