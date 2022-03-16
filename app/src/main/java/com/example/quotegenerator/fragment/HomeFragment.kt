@@ -1,13 +1,12 @@
 package com.example.quotegenerator.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.os.Build
+import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -26,15 +25,12 @@ import com.example.quotegenerator.R
 import com.example.quotegenerator.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Picasso.LoadedFrom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.lang.Exception
-import com.squareup.picasso.Target as Target1
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -53,9 +49,6 @@ class HomeFragment : Fragment() {
             getPicture()
         }
 
-
-
-
         //Start buttons anim
         animation()
 
@@ -65,7 +58,7 @@ class HomeFragment : Fragment() {
             if (isPermissionGranted()) {
                 Toast.makeText(requireContext(),"Downloading picture",Toast.LENGTH_SHORT).show()
                 lifecycleScope.launch {
-                    downloadImage(viewModel.getPictureUrl())
+                    saveImage(binding.picture,requireActivity())
                 }
             } else {
                 requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
@@ -109,65 +102,40 @@ class HomeFragment : Fragment() {
                     .into(binding.picture)
             }
 
+            private fun saveImage (itemImage: View, activity: Activity) {
 
-            private fun downloadImageAsBitmap (url: String) {
-                Picasso.get()
-                    .load(url)
-                    .into(object : com.squareup.picasso.Target {
-                        override fun onBitmapLoaded(bitmap: Bitmap?, from: LoadedFrom?) {
-                            return
-                        }
+                val fileName: String
+                val imageFromView = getBitmapFromView(itemImage)
 
-                        override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-
-                        }
-
-                        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-
-                        }
-                    })
-            }
-
-                private fun saveMediaToStorage(bitmap: Bitmap) {
-                    val filename = "${System.currentTimeMillis()}.jpg"
-                    var fos: OutputStream? = null
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        requireContext().contentResolver?.also { resolver ->
-                            val contentValues = ContentValues().apply {
-                                put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
-                                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-                            }
-                            val imageUri: Uri? =
-                                resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                            fos = imageUri?.let { resolver.openOutputStream(it) }
-                        }
-                    } else {
-                        val imagesDir =
-                            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                        val image = File(imagesDir, filename)
-                        fos = FileOutputStream(image)
-                    }
-                    fos?.use {
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-                    }
+                ByteArrayOutputStream().apply {
+                    imageFromView.compress(Bitmap.CompressFormat.JPEG,100,this)
+                    fileName = UUID.nameUUIDFromBytes(this.toByteArray()).toString().replace("-","")
                 }
 
+                val imageFile = File("${activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)}/QuoteGenerator/$fileName.jpg/")
 
+                if(!imageFile.exists()) {
+                    val contentResolver = ContentValues().apply {
+                        put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis())
+                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                        put(MediaStore.Images.Media.DATA, imageFile.absolutePath)
+                    }
 
+                    activity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentResolver).apply {
+                        imageFromView.compress(Bitmap.CompressFormat.JPEG,100,activity.contentResolver.openOutputStream(this!!))
+                    }
 
+                    Toast.makeText(requireContext(),"Image saved", Toast.LENGTH_SHORT).show()
+                }
+            }
 
-
-
-
-
-
-
-
-
-
-
-
+            private fun getBitmapFromView (view: View) : Bitmap {
+                return Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888).apply {
+                    Canvas(this).apply {
+                        view.draw(this)
+                    }
+                }
+            }
 
 
     /**PERMISSION METHODS*/
@@ -180,9 +148,8 @@ class HomeFragment : Fragment() {
                 if (requestCode == 1) {
                     if (grantResults.size > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                         CoroutineScope(Dispatchers.Main).launch {
-                            //downloadImage(viewModel.getPictureUrl())
+                            saveImage(binding.picture, requireActivity())
                         }
-                        Toast.makeText(requireContext(),"aaaaaaa",Toast.LENGTH_SHORT).show()
                     } else {
                         Snackbar.make(binding.mainLayout, "Authorization needed", Snackbar.LENGTH_SHORT
                         ).setAction("Settings") {
