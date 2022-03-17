@@ -2,11 +2,17 @@ package com.example.quotegenerator.fragment
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -15,6 +21,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
@@ -32,13 +41,18 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
 
+//Notification values
+private const val CHANNEL_ID = "channelId"
+private const val NOTIFICATION_ID = 0
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel by viewModels<ViewModel>()
     private var providerId = 0
+    private lateinit var notificationManager: NotificationManager
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         // Inflate the layout for this fragment
@@ -48,6 +62,9 @@ class HomeFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             getPicture()
         }
+
+        //Init the notif channel
+        createChannel(CHANNEL_ID,getString(R.string.notification_channel_name))
 
         //Start buttons anim
         animation()
@@ -86,13 +103,14 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    /** ANIMATION */
     private fun animation () {
         binding.container.alpha = 0f
         binding.container.translationY = 4000f
         binding.container.animate().alpha(1f).translationY(-1f).duration = 1000
     }
 
-    /**PICTURE METHODS*/
+    /** PICTURE METHODS */
 
             private suspend fun getPicture() {
                 Picasso.get()
@@ -126,6 +144,9 @@ class HomeFragment : Fragment() {
                     }
 
                     Toast.makeText(requireContext(),"Image saved", Toast.LENGTH_SHORT).show()
+                    //Notif is shown once the download is completed
+                    notificationManager = ContextCompat.getSystemService(requireContext(), NotificationManager::class.java) as NotificationManager
+                    notificationManager.sendNotification(requireContext().getText(R.string.notification_description).toString(), requireContext())
                 }
             }
 
@@ -138,7 +159,7 @@ class HomeFragment : Fragment() {
             }
 
 
-    /**PERMISSION METHODS*/
+    /** PERMISSION METHODS */
 
             private fun isPermissionGranted() : Boolean {
                 return checkSelfPermission(requireActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE) === PermissionChecker.PERMISSION_GRANTED
@@ -160,6 +181,34 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
+
+    /** NOTIFICATION */
+
+    //Build and send the notif
+    private fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
+        //Notif builder
+        val builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_baseline_download_done_24)
+            .setContentTitle("Quote Generator")
+            .setContentText(messageBody)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+        notify(NOTIFICATION_ID, builder.build())
+    }
+
+    //Build the notif channel
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun createChannel(channelId : String, channelName : String) {
+
+        val notificationChannel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
+        notificationChannel.enableLights(true)
+        notificationChannel.enableVibration(true)
+        notificationChannel.lightColor = Color.RED
+        notificationChannel.description = "channel"
+
+        notificationManager = ContextCompat.getSystemService(requireContext(), NotificationManager::class.java) as NotificationManager
+        notificationManager.createNotificationChannel(notificationChannel)
+    }
 
 
 }
