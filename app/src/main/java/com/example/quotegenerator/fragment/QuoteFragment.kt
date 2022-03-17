@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,33 +27,34 @@ class QuoteFragment : Fragment() {
 
     private lateinit var binding: FragmentQuoteBinding
     private val viewModel by viewModels<ViewModel>()
-    var quote = Quote(0,"","")
+    private lateinit var quote : Quote
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val providerId = arguments?.getInt("providerId")
 
         // Inflate the layout for this fragment
-        binding = FragmentQuoteBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_quote, container, false)
+
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         /** LISTENERS */
-        //"Generate" btn listener
+        //"Generate" btn listener. Generate a new quote from selected API
         binding.mainButton.setOnClickListener {
-            lifecycleScope.launch {
-                refreshQuote(providerId!!)
-                //Reset heart button
-                binding.heartFav.isVisible = true
-                binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-            }
+            viewModel.refreshQuote(providerId!!)
+            //Show & Reset heart button
+            binding.heartFav.isVisible = true
+            binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
 
-        //FavoriteQuoteList btn listener
+        //FavoriteQuoteList btn listener. Navigate to FavFragment
         binding.favQuotesBtn.setOnClickListener {
             viewModel.getQuotes()
             findNavController().navigate(QuoteFragmentDirections.actionQuoteFragmentToFavFragment())
         }
 
-        //Heart btn listner
+        //Heart (=add to favorites) btn listener
         binding.heartFav.setOnClickListener {
             if (quote.q!="" && quote.a != "zenquotes.io") {
                 binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_24)
@@ -64,12 +66,12 @@ class QuoteFragment : Fragment() {
             }
         }
 
-        //Powered by click listener
+        //"Powered by click" listener
         binding.poweredByText.setOnClickListener {
             //TODO fare l'intent che porta alla pagine web del provider relativo
         }
 
-        //INFO btn click listener
+        //INFO btn click listener. Show Dialog Alert with info about the app
         binding.infoButton.setOnClickListener {
             displayDialog()
         }
@@ -121,7 +123,6 @@ class QuoteFragment : Fragment() {
     }
 
     //Display dialog with info
-    //TODO fare intent a web o mail?
     private fun displayDialog() {
         val builder = AlertDialog.Builder(requireContext())
             .setTitle(resources.getString(R.string.dialog_title))

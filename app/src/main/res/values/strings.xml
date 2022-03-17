@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Quote Generator</string>
     <string name="info">INFO</string>
-    <string name="dialog_title">TODO Dialog tile (About this app…) (info etc)</string>
-    <string name="dialog_message">TODO Dialog message (info etc)</string>
+    <string name="dialog_title">INFO</string>
+    <string name="dialog_message">Quote Generator is developed by MRF</string>
     <string name="cancel" tools:ignore="ButtonCase">CANCEL</string>
     <string name="ok" tools:ignore="PrivateResource">OK</string>
     <string name="generate_a_random_quote">GENERATE A RANDOM QUOTE</string>

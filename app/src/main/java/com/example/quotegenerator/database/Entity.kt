@@ -11,7 +11,8 @@ import com.example.quotegenerator.model.Quote
 data class QuoteDB (
     @PrimaryKey(autoGenerate = true) var id: Int,
     @ColumnInfo(name="q") val q: String,
-    @ColumnInfo(name="a") val a: String)
+    @ColumnInfo(name="a") val a: String,
+    @ColumnInfo(name = "provider") val provider: String)
 
 /** Map Database Quotes to domain entities = convert QuoteDB objects into domain objects.*/
 fun List<QuoteDB>.asDomainModel(): List<Quote> {
@@ -19,23 +20,13 @@ fun List<QuoteDB>.asDomainModel(): List<Quote> {
         Quote(
             id = it.id,
             q = it.q,
-            a = it.a
+            a = it.a,
+            provider = it.provider
         )
     }
 }
 
-/**VICEVERSA*/
-/*
-fun ArrayList<Quote>.asDBModel(): List<QuoteDB> {
-    return map {
-        QuoteDB(
-            q = it.q,
-            a = it.a,
-            h = it.h,
-        )
-    }
-}*/
 
 fun Quote.asDBModel(): QuoteDB {
-    return QuoteDB(id, q, a)
+    return QuoteDB(id, q, a, provider)
 }
