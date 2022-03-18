@@ -2,7 +2,7 @@
  
 This is my Capstone Project for Udacity "Android Kotlin Developer" Course.
 
-OVERVIEW
+*** OVERVIEW ***
 
 As the name suggests, Quote Generator gives the user the chanche to get a random quote by some famous people from the world and save it to a personal "favorite quotes" list. 
 
@@ -38,6 +38,53 @@ A "INFO" button shows some information regarding the app (at the moment it only 
 
 Lastly, this fragment shows the quotes that the user has previously found interesting, and decided to save. 
 It's basically just a RecyclerView loading data from a ROOM db. The fragment is initiated with a MotionLayout animation, always for the sake of a more engaging UX.
+
+
+*** HOW I MET PROJECT SPECS ***
+
+°°° Android UI/UX
+
+- "Build a navigable interface consisting of multiple screens of functionality and data."
+
+Three screens have been implemented, and navigation between them is managed by a Navigation Controller. An argument bundle (= the providerID) is also passed from the Home Fragment and the Quote Fragment.
+
+- "Construct interfaces that adhere to Android standards and display appropriately on screens of different size and resolution."
+
+ConstraintLayout is the layout of choice, and its children are properly identified and constrained.
+Nested layouts have been avoided (as much as possible).
+Res directories include string, drawables, colors and dimensions.
+A RecyclerView is used to display data from the database (=the saved quotes)
+
+- "Animate UI components to better utilize screen real estate and create engaging content."
+
+A MotionLayout manage the transition between the Quote Fragment and the Fav Fragment. Specifically, it impacts the alpha attribute of the destination fragment. A couple more animation are set for the "heart" and providers buttons.
+
+
+°°° Local and Network data
+
+- "Connect to and consume data from a remote data source such as a RESTful API."
+
+Data is retrieved from 4 different API using Retrofit library and gson helper. Network request are operated inside the ViewModel using suspend functions and Coroutines. Read/write operations from/to the DB are handled coverting data asDomainModel or asDBModel.
+
+- "Load network resources, such as Bitmap Images, dynamically and on-demand."
+
+The app retrieves an image from a API, convert it to Bitmap and show it to the user, while providing a placeholder in case of missing Internet connection.
+Picasso library was used for this task.
+
+- "Store data locally on the device for use between application sessions and/or offline use."
+
+The app stores data with appropriate data types inside an internal ROOM database, granting data persistence across sessions. 
+Operations over the DB are managed asynchronously.
+
+
+°°° Android system and hardware integration
+
+- "Architect application functionality using MVVM."
+
+- "Implement logic to handle and respond to hardware and system events that impact the Android Lifecycle."
+
+- "Utilize system hardware to provide the user with advanced functionality and features."
+
 
 
 
