@@ -11,17 +11,10 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.quotegenerator.R
-import com.example.quotegenerator.api.NetworkId0
-import com.example.quotegenerator.api.NetworkId1
-import com.example.quotegenerator.api.NetworkId2
 import com.example.quotegenerator.databinding.FragmentQuoteBinding
 import com.example.quotegenerator.model.Quote
-import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
 
 class QuoteFragment : Fragment() {
 
@@ -39,13 +32,17 @@ class QuoteFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        //If it's the first access show a placeholder text and hide the heart btn
+        firstAccess()
+
         /** LISTENERS */
         //"Generate" btn listener. Generate a new quote from selected API
         binding.mainButton.setOnClickListener {
             viewModel.refreshQuote(providerId!!)
-            //Show & Reset heart button
+            //Show and Reset heart button
             binding.heartFav.isVisible = true
             binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            animateHeartBtn()
         }
 
         //FavoriteQuoteList btn listener. Navigate to FavFragment
@@ -56,19 +53,19 @@ class QuoteFragment : Fragment() {
 
         //Heart (=add to favorites) btn listener
         binding.heartFav.setOnClickListener {
-            if (quote.q!="" && quote.a != "zenquotes.io") {
+            //Don't add the placeholder text of the ZenQuote API to the Fav
+            // TODO what if I hide the heart btn instead?
+            if (!viewModel.notPlaceHolderText()) {
                 binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_24)
-                viewModel.insertQuote(quote)
-                //reset quote var after inserting in the DB
-                quote.q = ""
+                viewModel.insertQuote()
             } else {
-                Toast.makeText(requireContext(),"Generate a quote first",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),"Generate a valid quote first",Toast.LENGTH_SHORT).show()
             }
         }
 
         //"Powered by click" listener
         binding.poweredByText.setOnClickListener {
-            //TODO fare l'intent che porta alla pagine web del provider relativo
+            //TODO make explicit intent for navigation to provider website
         }
 
         //INFO btn click listener. Show Dialog Alert with info about the app
@@ -77,49 +74,6 @@ class QuoteFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-
-    private suspend fun refreshQuote(providerId: Int) {
-
-        var providerName = ""
-
-        when (providerId) {
-            0 -> {
-                //JSONString from API method
-                val jsonString = NetworkId0.retrofitServiceId0.getQuote()
-                //Convert JSONString in JSONArray
-                val jsonArray = JSONArray(jsonString)
-                //Convert JSONArray item (in pos x) in JSONObject
-                val jsonObject: JSONObject = jsonArray.getJSONObject(0)
-                // From the jsonObject assigns the string labelled "q" (the actual quote) or "a" (author)
-                // to the same field of the Kotlin Quote object
-                quote.q = jsonObject.getString("q")
-                quote.a = jsonObject.getString("a")
-                providerName = "ZenQuotes.io"
-            }
-            1 -> {
-                val jsonString = NetworkId1.retrofitServiceId1.getQuoteNoValue()
-                val jsonObject = JSONObject(jsonString)
-                quote.q = jsonObject.getString("quote")
-                quote.a = "Kanye West"
-                providerName = "Kanye as a Service"
-            }
-            2 -> {
-                val jsonString = NetworkId2.retrofitServiceId2.getQuote()
-                val jsonObject = JSONObject(jsonString)
-                //nested json
-                val author = jsonObject.getJSONObject("author")
-                quote.q = jsonObject.getString("text")
-                quote.a = author.getString("name")
-                providerName = "fisenkodv"
-            }
-            else -> {}
-        }
-        binding.mainTextView.text = quote.q
-        binding.authorTextView.text = quote.a
-        binding.poweredByText.isVisible = true
-        binding.poweredByText.text = "Powered by $providerName"
     }
 
     //Display dialog with info
@@ -133,5 +87,18 @@ class QuoteFragment : Fragment() {
         alert.getButton(DialogInterface.BUTTON_POSITIVE).contentDescription = "OK"
     }
 
+    private fun firstAccess() {
+        if (viewModel.justStarted()) {
+            binding.heartFav.isVisible = false
+        }
+    }
+
+    /**Heart btn animation, basically used as a workaround to the problem of the btn showing before the quote is actually loaded.
+     * This way the button surely shows up AFTER the refreshQuote coroutine (or hopefully at least at the same time)*/
+    private fun animateHeartBtn () {
+        binding.heartFav.alpha = 0f
+        binding.heartFav.translationY = 4000f
+        binding.heartFav.animate().alpha(1f).translationY(-1f).duration = 750
+    }
 
 }

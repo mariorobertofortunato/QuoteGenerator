@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.quotegenerator.fragment.ViewModel" />
@@ -60,7 +61,6 @@
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/default_padding"
                                 android:src="@drawable/ic_baseline_favorite_border_24"
-                                android:visibility="invisible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -86,10 +86,10 @@
                         android:background="@drawable/button"
                         android:text="@string/generate"
                         android:textAppearance="@style/ButtonText"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/fav_quotes_btn"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/quote_card_view"
-                        app:layout_constraintBottom_toTopOf="@+id/fav_quotes_btn" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/quote_card_view" />
 
                     <Button
                         android:id="@+id/fav_quotes_btn"
@@ -99,8 +99,8 @@
                         android:background="@drawable/button"
                         android:text="FAVOURITE QUOTES"
                         android:textAppearance="@style/ButtonText"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/main_button" />
 
                     <TextView
@@ -108,8 +108,8 @@
                         style="@style/TextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{viewModel.quote.provider}"
                         android:textAppearance="@style/SmallText"
-                        android:visibility="invisible"
                         app:layout_constraintBottom_toTopOf="@+id/info_button"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
