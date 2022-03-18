@@ -23,6 +23,7 @@ Once the permission is granted, the image is downloaded to the device gallery, t
 The fragment is initialized with an animation, giving a less "static" UX. 
 
 - Quote Fragment
+
 ![QuoteFragmentInit](https://user-images.githubusercontent.com/98179119/158991046-7b102d3c-9910-4004-8b0a-61b3c7f7a8af.png)
 ![QuoteFragment](https://user-images.githubusercontent.com/98179119/158991149-3921943b-c39f-4b74-ac73-713f5324cacb.png)
 ![Dialog](https://user-images.githubusercontent.com/98179119/158991209-ab73cd10-6327-40e9-89b6-c82d42a5eca4.png)
