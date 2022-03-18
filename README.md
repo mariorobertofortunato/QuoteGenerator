@@ -17,7 +17,7 @@ In the HomeFragment the user is prompted to choose a provider for the quote. The
 
 Inside this fragment is also present a "Picture of the day" as a little treat. The image is retrieved from a fourth public API, and by clicking on it the image is saved to the device's storage. 
 The Picture feature might seem a bit "forced in place" and...well, actually, it is. Such feature wasn't present in my initial inception of the project but the reason behind its implementation is to meet the required specs in the Project Rubric. (In a real world situation this functionality would not be included)
-When clicking on the picture the user is first of all asked to give the app permission to access the device storage. If such permission is denied, a snackbar reminds the user that downloading the picture would not be possible until permission is granted. 
+When clicking on the picture the user is first of all asked to give the app permission to access the device storage. If such permission is denied, a Snackbar reminds the user that downloading the picture would not be possible until permission is granted. 
 Once the permission is granted, the image is downloaded to the device gallery, then a notification is pushed in order to notify the successful download.
 
 The fragment is initialized with an animation, giving a less "static" UX. 
@@ -29,7 +29,15 @@ The fragment is initialized with an animation, giving a less "static" UX.
 ![Dialog](https://user-images.githubusercontent.com/98179119/158991209-ab73cd10-6327-40e9-89b6-c82d42a5eca4.png)
 
 
-WIP
+The quote fragment represent the core of the app. Here the user is invited to click the "GENERATE" button, populating the Card View with a random quote from the API choosen in the Home Fragment, with its corresponding author. Inside said Card View a "heart" button is set visible (with an animation) after the user generate a quote, giving the chance to save the quote to a personal favorite list database. From this fragment the user is also able to navigate to the list of saved quotes (=FavFragment).
+A "INFO" button shows some information regarding the app (at the moment it only says I'm the creator of this App).
+
+- Favorite Quotes Fragment
+
+// TODO inserire immagine 
+
+Lastly, this fragment shows the quotes that the user has previously found interesting, and decided to save. 
+It's basically just a RecyclerView loading data from a ROOM db. The fragment is initiated with a MotionLayout animation, always for the sake of a more engaging UX.
 
 
 
