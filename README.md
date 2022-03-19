@@ -34,7 +34,8 @@ A "INFO" button shows some information regarding the app (at the moment it only 
 
 - Favorite Quotes Fragment
 
-// TODO inserire immagine 
+![FavoriteQuotesList](https://user-images.githubusercontent.com/98179119/159112687-a51b0af9-8057-4bd9-b5b7-b4b39d2e96ca.png)
+
 
 Lastly, this fragment shows the quotes that the user has previously found interesting, and decided to save. 
 It's basically just a RecyclerView loading data from a ROOM db. The fragment is initiated with a MotionLayout animation, always for the sake of a more engaging UX.
@@ -109,6 +110,7 @@ _______________________________
 - Manage possible duplicates in favorite quotes list
 - Write function and UI for deleting a quote from the list
 - Better favorite list layout (a header would be nice) 
+- Share to social function
 
 
 
