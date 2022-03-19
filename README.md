@@ -100,6 +100,16 @@ _______________________________
 
 *** FUTURE FEATURES ROADMAP & KNOWN BUG/ISSUES ***
 
+- Custom app icon
+- Splash screen
+- Manage Dark Theme
+- Implement a (fake?) loading bar animation when generating a quote
+- Web Intent for the "Powered by ${provider}" label to API website
+- MailTo Intent in the Alert Dialog box 
+- Manage possible duplicates in favorite quotes list
+- Write function and UI for deleting a quote from the list
+- Better favorite list layout (a header would be nice) 
+
 
 
 
