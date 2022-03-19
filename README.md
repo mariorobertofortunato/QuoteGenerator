@@ -4,7 +4,7 @@ This is my Capstone Project for Udacity "Android Kotlin Developer" Course.
 
 *** OVERVIEW ***
 
-As the name suggests, Quote Generator gives the user the chance to get a random quote by some famous people from the world and save it to a personal "favorite quotes" list. 
+As its name suggests, Quote Generator gives the user the chance to get a random quote by some famous people worldwide, and save it to a personal "favorite quotes" list. 
 
 The app consists of three screen: a Home Fragment, a Quote Fragment and a FavoriteQuotesList Fragment. 
 In order to achieve the desired functionality the quotes are retrieved from three separate public API that serve as providers. After generating a random quote from one of the providers, the user has the chance to save the generated quote in a "Favorite Quotes" list or generate a new random quote.
@@ -15,9 +15,9 @@ In order to achieve the desired functionality the quotes are retrieved from thre
 
 In the HomeFragment the user is prompted to choose a provider for the quote. The providers are represented by three separate public API that serve the purpose. Clicking on each provider's name will trigger the navigation to the QuoteFragment, passing the providerId as an argument.
 
-Inside this fragment is also present a "Picture of the day" as a little treat. The image is retrieved from a fourth public API, and by clicking on it the image is saved to the device's storage. 
-The Picture feature might seem a bit "forced in place" and...well, actually, it is. Such feature wasn't present in my initial inception of the project but the reason behind its implementation is to meet the required specs in the Project Rubric. (In a real world situation this functionality would not be included)
-When clicking on the picture the user is first of all asked to give the app permission to access the device storage. If such permission is denied, a Snackbar reminds the user that downloading the picture would not be possible until permission is granted. 
+Within this fragment, can also be found "Picture of the day" - a little treat. The image is retrieved from a fourth public API. Moreover by clicking on it the image, the user is able to save it to the device's storage. 
+The Picture feature might seem a bit "forced in place" and...well, actually, it is. Such feature wasn't present in my initial inception of the project but the reason behind its implementation is to meet the required specs in the Project Rubric. (In a real world situation this functionality would not be included).
+Clicking on the picture, the user is first asked to give the app permission to access the device storage. If such permission is denied, a Snackbar reminds the user that downloading the picture would not be possible until permission is granted. 
 Once the permission is granted, the image is downloaded to the device gallery, then a notification is pushed in order to notify the successful download.
 
 The fragment is initialized with an animation, giving a less "static" UX. 
