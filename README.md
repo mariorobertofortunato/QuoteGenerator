@@ -40,6 +40,9 @@ Lastly, this fragment shows the quotes that the user has previously found intere
 It's basically just a RecyclerView loading data from a ROOM db. The fragment is initiated with a MotionLayout animation, always for the sake of a more engaging UX.
 
 
+________________________________
+
+
 *** HOW I MET PROJECT SPECS ***
 
 °°° Android UI/UX
@@ -81,9 +84,21 @@ Operations over the DB are managed asynchronously.
 
 - "Architect application functionality using MVVM."
 
+A ViewModel is deployed in order to achieve the separation of concerns. 
+System resources are utilized efficiently, preventing leaks where possible.
+
 - "Implement logic to handle and respond to hardware and system events that impact the Android Lifecycle."
 
+Events are handled the best way possible, preventing data loss when changing configuration. Also permission are properly managed (specifically the permission to save files in the device storage)
+
 - "Utilize system hardware to provide the user with advanced functionality and features."
+
+This requirement is satisfied by a notification when downlading a picture. No permission is needed for this specific hardware feature.
+
+
+_______________________________
+
+*** FUTURE FEATURES ROADMAP & KNOWN BUG/ISSUES ***
 
 
 
