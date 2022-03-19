@@ -20,7 +20,6 @@ class QuoteFragment : Fragment() {
 
     private lateinit var binding: FragmentQuoteBinding
     private val viewModel by viewModels<ViewModel>()
-    private lateinit var quote : Quote
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
@@ -65,7 +64,7 @@ class QuoteFragment : Fragment() {
 
         //"Powered by click" listener
         binding.poweredByText.setOnClickListener {
-            //TODO make explicit intent for navigation to provider website
+            //TODO make explicit intent for navigation to provider website?
         }
 
         //INFO btn click listener. Show Dialog Alert with info about the app
@@ -94,7 +93,9 @@ class QuoteFragment : Fragment() {
     }
 
     /**Heart btn animation, basically used as a workaround to the problem of the btn showing before the quote is actually loaded.
-     * This way the button surely shows up AFTER the refreshQuote coroutine (or hopefully at least at the same time)*/
+     * This way the button surely shows up AFTER the refreshQuote coroutine (or hopefully at least at the same time).
+     *
+     * Quite pointless per se, but animations are cool, c'mon.*/
     private fun animateHeartBtn () {
         binding.heartFav.alpha = 0f
         binding.heartFav.translationY = 4000f
