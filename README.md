@@ -29,15 +29,15 @@ The fragment is initialized with an animation, giving a less "static" UX.
 ![Dialog](https://user-images.githubusercontent.com/98179119/158991209-ab73cd10-6327-40e9-89b6-c82d42a5eca4.png)
 
 
-The quote fragment represent the core of the app. Here the user is invited to click the "GENERATE" button, populating the Card View with a random quote from the API choosen in the Home Fragment, with its corresponding author. Inside said Card View a "heart" button is set visible (with an animation) after the user generate a quote, giving the chance to save the quote to a personal favorite list database. From this fragment the user is also able to navigate to the list of saved quotes (=FavFragment).
-A "INFO" button shows some information regarding the app (at the moment it only says I'm the creator of this App).
+The quote fragment represent the core of the app. Here the user is invited to click the "GENERATE" button, populating the Card View with a random quote from the API choosen in the Home Fragment, with its corresponding author. Inside the Card View a "heart" button is set visible (with an animation) after the user generate a quote, giving them the chance to save the quote to a personal favorite list database. From this fragment the user is also able to navigate to the list of saved quotes (=FavFragment).
+An "INFO" button shows some information regarding the app (at the moment it only states I'm the creator of this App).
 
 - Favorite Quotes Fragment
 
 ![FavoriteQuotesList](https://user-images.githubusercontent.com/98179119/159112687-a51b0af9-8057-4bd9-b5b7-b4b39d2e96ca.png)
 
 
-Lastly, this fragment shows the quotes that the user has previously found interesting, and decided to save. 
+Last but not least, this fragment shows the quotes that the user has previously found interesting, and decided to save. 
 It's basically just a RecyclerView loading data from a ROOM db. The fragment is initiated with a MotionLayout animation, always for the sake of a more engaging UX.
 
 
@@ -61,7 +61,7 @@ A RecyclerView is used to display data from the database (=the saved quotes)
 
 - "Animate UI components to better utilize screen real estate and create engaging content."
 
-A MotionLayout manage the transition between the Quote Fragment and the Fav Fragment. Specifically, it impacts the alpha attribute of the destination fragment. A couple more animation are set for the "heart" and providers buttons.
+A MotionLayout manages the transition between the Quote Fragment and the Fav Fragment. Specifically, it impacts the alpha attribute of the destination fragment. A couple more animation are set for the "heart" and providers buttons.
 
 
 °°° Local and Network data
