@@ -5,4 +5,8 @@ package com.example.quotegenerator.model
  * a = author
  * provider = surprisingly...the provider!*/
 
-data class Quote (var id: Int, var q: String, var a: String, var provider: String)
+data class Quote (
+    var id: Int,
+    var q: String,
+    var a: String,
+    var provider: String)
