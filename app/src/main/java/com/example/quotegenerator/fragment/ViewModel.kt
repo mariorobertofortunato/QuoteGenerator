@@ -1,25 +1,23 @@
 package com.example.quotegenerator.fragment
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.quotegenerator.api.NetworkId0
-import com.example.quotegenerator.api.NetworkId1
-import com.example.quotegenerator.api.NetworkId2
-import com.example.quotegenerator.api.PictureNetwork
-import com.example.quotegenerator.database.asDBModel
-import com.example.quotegenerator.database.asDomainModel
-import com.example.quotegenerator.database.getDB
 import com.example.quotegenerator.model.Quote
+import com.example.quotegenerator.repository.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
+import javax.inject.Inject
 
-class ViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val database = getDB(application)
+@HiltViewModel
+class ViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
+
+
+    //private val database = getDB()
 
     //Initiate the networkQuote with a starting placeholder text
     private val networkQuote = Quote (0,"Click GENERATE button below to generate a quote","","")
@@ -36,7 +34,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     /** Public methods */
 
-            /** DB */
+/*          *//** DB *//*
             fun getQuotes() {
                 viewModelScope.launch {
                     getQuotesFromDB()
@@ -53,7 +51,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                 viewModelScope.launch {
                     deleteQuoteFromDB(quote)
                 }
-            }
+            }*/
 
             /** Quote from network*/
             fun refreshQuote(providerId: Int) {
@@ -65,7 +63,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
             /** Picture */
             suspend fun getPictureUrl () : String {
-                val jsonString = PictureNetwork.retrofitServicePicture.getPicture()
+                val jsonString = mainRepository.getPicture()
                 val jsonObject = JSONObject(jsonString)
                 return jsonObject.getString("file")
             }
@@ -89,7 +87,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     /** Private methods */
 
-            /** DB */
+/*            *//** DB *//*
             private suspend fun getQuotesFromDB() {
                 val quotesFromDB = database.quoteDao.getAll().asDomainModel()
                 _quoteList.value = ArrayList(quotesFromDB)
@@ -101,7 +99,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
             private suspend fun deleteQuoteFromDB(quote: Quote) {
                 database.quoteDao.deleteQuote(quote.asDBModel())
-            }
+            }*/
 
             /** Quote from network*/
             private suspend fun refreshQuoteFromNetwork(providerId: Int) {
@@ -109,7 +107,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                 when (providerId) {
                     0 -> {
                         //JSONString from API method
-                        val jsonString = NetworkId0.retrofitServiceId0.getQuote()
+                        val jsonString = mainRepository.getQuoteValue1()
                         //Convert JSONString in JSONArray
                         val jsonArray = JSONArray(jsonString)
                         //Convert JSONArray item (in pos x) in JSONObject
@@ -123,7 +121,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
                     }
                     1 -> {
-                        val jsonString = NetworkId1.retrofitServiceId1.getQuoteNoValue()
+                        val jsonString = mainRepository.getQuoteNoValue()
                         val jsonObject = JSONObject(jsonString)
                         networkQuote.q = jsonObject.getString("quote")
                         networkQuote.a = "Kanye West"
@@ -132,7 +130,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
                     }
                     else -> {
-                        val jsonString = NetworkId2.retrofitServiceId2.getQuote()
+                        val jsonString = mainRepository.getQuoteValue2()
                         val jsonObject = JSONObject(jsonString)
                         //nested json
                         val author = jsonObject.getJSONObject("author")

@@ -33,6 +33,7 @@ import com.example.quotegenerator.R
 import com.example.quotegenerator.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,6 +45,7 @@ import java.util.*
 private const val CHANNEL_ID = "channelId"
 private const val NOTIFICATION_ID = 0
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
