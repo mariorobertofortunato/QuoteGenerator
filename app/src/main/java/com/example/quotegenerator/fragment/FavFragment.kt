@@ -22,7 +22,7 @@ class FavFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentFavBinding.inflate(layoutInflater)
 
-        //viewModel.getQuotes()
+        viewModel.getQuotes()
 
         val adapter = Adapter()
         binding.quoteRecycler.adapter = adapter

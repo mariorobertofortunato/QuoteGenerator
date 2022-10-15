@@ -48,7 +48,7 @@ class QuoteFragment : Fragment() {
 
         //FavoriteQuoteList btn listener. Navigate to FavFragment
         binding.favQuotesBtn.setOnClickListener {
-            //viewModel.getQuotes()
+            viewModel.getQuotes()
             findNavController().navigate(QuoteFragmentDirections.actionQuoteFragmentToFavFragment())
         }
 
@@ -58,7 +58,7 @@ class QuoteFragment : Fragment() {
             // TODO what if I hide the heart btn instead?
             if (!viewModel.notPlaceHolderText()) {
                 binding.heartFav.setImageResource(R.drawable.ic_baseline_favorite_24)
-                //viewModel.insertQuote()
+                viewModel.insertQuote()
             } else {
                 Toast.makeText(requireContext(),"Generate a valid quote first",Toast.LENGTH_SHORT).show()
             }

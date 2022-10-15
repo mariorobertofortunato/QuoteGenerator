@@ -4,8 +4,6 @@ import androidx.room.*
 import com.example.quotegenerator.model.Quote
 import kotlinx.coroutines.flow.Flow
 
-/** Defines the methods for accessing the DB aka
- * provides the methods that the rest of the app uses to interact with data in the quote_db table.*/
 @Dao
 interface QuoteDao {
 
